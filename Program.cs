@@ -36,6 +36,7 @@ builder.Services.AddAuthentication(x => {
         ValidateActor = true,
         ValidateAudience = true,
         ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero,
         ValidateIssuer = true,
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["JwtBearerTokenSettings:Issuer"],
