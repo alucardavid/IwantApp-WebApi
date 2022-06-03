@@ -10,7 +10,7 @@ public class EmployeeGetAll
     public static Delegate Handle => Action;
 
     [Authorize(Policy = "EmployeePolicy")]
-    public static IResult Action(int? page, int? rows, QueryAllUsersWithClaimName query)
+    public static async Task<IResult> Action(int? page, int? rows, QueryAllUsersWithClaimName query)
     {
         if (page == null)
             return Results.BadRequest("O numero da pagina nao foi inclusa na request.");
@@ -21,6 +21,6 @@ public class EmployeeGetAll
         if (rows > 10)
             return Results.BadRequest("Permitido somente 10 linhas para exibicao");
 
-        return Results.Ok(query.Execute(page.Value, rows.Value));
+        return Results.Ok(await query.Execute(page.Value, rows.Value));
     }
 }
