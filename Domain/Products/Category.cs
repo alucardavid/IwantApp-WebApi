@@ -1,6 +1,4 @@
 ﻿using Flunt.Validations;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IwantApp.Domain.Products;
 
