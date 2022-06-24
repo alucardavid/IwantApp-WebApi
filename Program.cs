@@ -10,6 +10,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using System.Text;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -104,6 +105,8 @@ app.Map("/error", (HttpContext http) =>
     {
         if (error is SqlException)
             return Results.Problem(title: "Database out", statusCode: 500);
+        else if (error is JsonException)
+            return Results.Problem(title: "Error to convert data to other type. See all the information sent", statusCode: 400);
     }
 
     return Results.Problem(title: "An error ocurred", statusCode: 500);
