@@ -1,4 +1,6 @@
+using IwantApp.Domain.Users;
 using IwantApp.Endpoints.Categories;
+using IwantApp.Endpoints.Clients;
 using IwantApp.Endpoints.Employees;
 using IwantApp.Endpoints.Products;
 using IwantApp.Infra.Data;
@@ -46,6 +48,8 @@ builder.Services.AddAuthorization((options => {
         .Build();
     options.AddPolicy("EmployeePolicy", p =>
         p.RequireAuthenticatedUser().RequireClaim("EmployeeCode"));
+    options.AddPolicy("CpfPolicy", p =>
+        p.RequireAuthenticatedUser().RequireClaim("Cpf"));
 }));
 
 builder.Services.AddAuthentication(x => {
@@ -65,6 +69,7 @@ builder.Services.AddAuthentication(x => {
 });
 
 builder.Services.AddScoped<QueryAllUsersWithClaimName>();
+builder.Services.AddScoped<UserCreator>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -95,6 +100,11 @@ app.MapMethods(EmployeePost.Template, EmployeePost.Methods, EmployeePost.Handle)
 app.MapMethods(EmployeeGetAll.Template, EmployeeGetAll.Methods, EmployeeGetAll.Handle);
 
 app.MapMethods(TokenPost.Template, TokenPost.Methods, TokenPost.Handle);
+
+app.MapMethods(ClientPost.Template, ClientPost.Methods, ClientPost.Handle);
+app.MapMethods(ClientGet.Template, ClientGet.Methods, ClientGet.Handle);
+
+app.MapMethods(OrderPost.Template, OrderPost.Methods, OrderPost.Handle);
 
 app.UseExceptionHandler("/error");
 app.Map("/error", (HttpContext http) =>

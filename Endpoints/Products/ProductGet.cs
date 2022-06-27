@@ -13,7 +13,7 @@ public class ProductGet
     public static async Task<IResult> Action([FromRoute] Guid id, ApplicationDbContext context)
     {
         var product = context.Products.Include(p => p.Category).Where(p => p.Id == id)
-            .Select(p => new ProductResponse(p.Name, p.Category.Name, p.Description, p.HasStock, p.Price, p.Active));
+            .Select(p => new ProductResponse(p.Id, p.Name, p.Category.Name, p.Description, p.HasStock, p.Price, p.Active));
         
         return Results.Ok(product);
     }
